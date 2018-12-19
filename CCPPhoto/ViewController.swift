@@ -15,6 +15,14 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
     }
 
-
+    @IBAction func image(_ sender: Any) {
+        self.navigationController?.pushViewController(ImagePicker(), animated: true)
+    }
+    
+    @IBAction func video(_ sender: Any) {
+    }
+    
+    @IBAction func imageVideo(_ sender: Any) {
+    }
 }
 

@@ -7,14 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00BBDA3421C8E3D3003E5071 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBDA3221C8E3D3003E5071 /* ImagePicker.swift */; };
+		00BBDA3521C8E3D3003E5071 /* ImagePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00BBDA3321C8E3D3003E5071 /* ImagePicker.xib */; };
+		00BBDA3821C8E3EB003E5071 /* VideoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBDA3621C8E3EB003E5071 /* VideoPicker.swift */; };
+		00BBDA3921C8E3EB003E5071 /* VideoPicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00BBDA3721C8E3EB003E5071 /* VideoPicker.xib */; };
+		00BBDA3C21C8E536003E5071 /* AssetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBDA3A21C8E536003E5071 /* AssetCell.swift */; };
+		00BBDA3D21C8E536003E5071 /* AssetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00BBDA3B21C8E536003E5071 /* AssetCell.xib */; };
+		00BBDA3F21C8E89E003E5071 /* CCPPhotoModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBDA3E21C8E89E003E5071 /* CCPPhotoModels.swift */; };
+		00BBDA4121C8F56D003E5071 /* CCPPhotoConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBDA4021C8F56D003E5071 /* CCPPhotoConfig.swift */; };
+		00BBDA4321C8F6AA003E5071 /* CCPPhotoExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBDA4221C8F6AA003E5071 /* CCPPhotoExtensions.swift */; };
+		00BBDA4521C8F7E6003E5071 /* CCPPhotoAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBDA4421C8F7E6003E5071 /* CCPPhotoAuthorization.swift */; };
 		00FE7A3721C0A76900E7E9CA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FE7A3621C0A76900E7E9CA /* AppDelegate.swift */; };
 		00FE7A3921C0A76900E7E9CA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FE7A3821C0A76900E7E9CA /* ViewController.swift */; };
 		00FE7A3C21C0A76900E7E9CA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FE7A3A21C0A76900E7E9CA /* Main.storyboard */; };
 		00FE7A3E21C0A76A00E7E9CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00FE7A3D21C0A76A00E7E9CA /* Assets.xcassets */; };
 		00FE7A4121C0A76A00E7E9CA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FE7A3F21C0A76A00E7E9CA /* LaunchScreen.storyboard */; };
+		00FE7A4A21C0A79800E7E9CA /* CCPPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FE7A4921C0A79800E7E9CA /* CCPPhoto.swift */; };
+		00FE7A5121C10A9200E7E9CA /* CCPPhotoTipVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FE7A4F21C10A9200E7E9CA /* CCPPhotoTipVC.swift */; };
+		00FE7A5221C10A9200E7E9CA /* CCPPhotoTipVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00FE7A5021C10A9200E7E9CA /* CCPPhotoTipVC.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		00BBDA3221C8E3D3003E5071 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		00BBDA3321C8E3D3003E5071 /* ImagePicker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImagePicker.xib; sourceTree = "<group>"; };
+		00BBDA3621C8E3EB003E5071 /* VideoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPicker.swift; sourceTree = "<group>"; };
+		00BBDA3721C8E3EB003E5071 /* VideoPicker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VideoPicker.xib; sourceTree = "<group>"; };
+		00BBDA3A21C8E536003E5071 /* AssetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetCell.swift; sourceTree = "<group>"; };
+		00BBDA3B21C8E536003E5071 /* AssetCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AssetCell.xib; sourceTree = "<group>"; };
+		00BBDA3E21C8E89E003E5071 /* CCPPhotoModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCPPhotoModels.swift; sourceTree = "<group>"; };
+		00BBDA4021C8F56D003E5071 /* CCPPhotoConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCPPhotoConfig.swift; sourceTree = "<group>"; };
+		00BBDA4221C8F6AA003E5071 /* CCPPhotoExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCPPhotoExtensions.swift; sourceTree = "<group>"; };
+		00BBDA4421C8F7E6003E5071 /* CCPPhotoAuthorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCPPhotoAuthorization.swift; sourceTree = "<group>"; };
 		00FE7A3321C0A76900E7E9CA /* CCPPhoto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CCPPhoto.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		00FE7A3621C0A76900E7E9CA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		00FE7A3821C0A76900E7E9CA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +45,9 @@
 		00FE7A3D21C0A76A00E7E9CA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		00FE7A4021C0A76A00E7E9CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		00FE7A4221C0A76A00E7E9CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		00FE7A4921C0A79800E7E9CA /* CCPPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCPPhoto.swift; sourceTree = "<group>"; };
+		00FE7A4F21C10A9200E7E9CA /* CCPPhotoTipVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCPPhotoTipVC.swift; sourceTree = "<group>"; };
+		00FE7A5021C10A9200E7E9CA /* CCPPhotoTipVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CCPPhotoTipVC.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +61,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		00BBDA3121C8E3AB003E5071 /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				00FE7A4F21C10A9200E7E9CA /* CCPPhotoTipVC.swift */,
+				00FE7A5021C10A9200E7E9CA /* CCPPhotoTipVC.xib */,
+				00BBDA3221C8E3D3003E5071 /* ImagePicker.swift */,
+				00BBDA3321C8E3D3003E5071 /* ImagePicker.xib */,
+				00BBDA3621C8E3EB003E5071 /* VideoPicker.swift */,
+				00BBDA3721C8E3EB003E5071 /* VideoPicker.xib */,
+				00BBDA3A21C8E536003E5071 /* AssetCell.swift */,
+				00BBDA3B21C8E536003E5071 /* AssetCell.xib */,
+			);
+			path = VC;
+			sourceTree = "<group>";
+		};
 		00FE7A2A21C0A76900E7E9CA = {
 			isa = PBXGroup;
 			children = (
@@ -54,6 +95,7 @@
 		00FE7A3521C0A76900E7E9CA /* CCPPhoto */ = {
 			isa = PBXGroup;
 			children = (
+				00FE7A4821C0A77200E7E9CA /* Photos */,
 				00FE7A3621C0A76900E7E9CA /* AppDelegate.swift */,
 				00FE7A3821C0A76900E7E9CA /* ViewController.swift */,
 				00FE7A3A21C0A76900E7E9CA /* Main.storyboard */,
@@ -62,6 +104,19 @@
 				00FE7A4221C0A76A00E7E9CA /* Info.plist */,
 			);
 			path = CCPPhoto;
+			sourceTree = "<group>";
+		};
+		00FE7A4821C0A77200E7E9CA /* Photos */ = {
+			isa = PBXGroup;
+			children = (
+				00BBDA3121C8E3AB003E5071 /* VC */,
+				00FE7A4921C0A79800E7E9CA /* CCPPhoto.swift */,
+				00BBDA3E21C8E89E003E5071 /* CCPPhotoModels.swift */,
+				00BBDA4021C8F56D003E5071 /* CCPPhotoConfig.swift */,
+				00BBDA4221C8F6AA003E5071 /* CCPPhotoExtensions.swift */,
+				00BBDA4421C8F7E6003E5071 /* CCPPhotoAuthorization.swift */,
+			);
+			path = Photos;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -122,8 +177,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00BBDA3D21C8E536003E5071 /* AssetCell.xib in Resources */,
+				00FE7A5221C10A9200E7E9CA /* CCPPhotoTipVC.xib in Resources */,
+				00BBDA3921C8E3EB003E5071 /* VideoPicker.xib in Resources */,
 				00FE7A4121C0A76A00E7E9CA /* LaunchScreen.storyboard in Resources */,
 				00FE7A3E21C0A76A00E7E9CA /* Assets.xcassets in Resources */,
+				00BBDA3521C8E3D3003E5071 /* ImagePicker.xib in Resources */,
 				00FE7A3C21C0A76900E7E9CA /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -135,7 +194,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00BBDA3C21C8E536003E5071 /* AssetCell.swift in Sources */,
+				00BBDA4321C8F6AA003E5071 /* CCPPhotoExtensions.swift in Sources */,
+				00FE7A5121C10A9200E7E9CA /* CCPPhotoTipVC.swift in Sources */,
 				00FE7A3921C0A76900E7E9CA /* ViewController.swift in Sources */,
+				00BBDA3F21C8E89E003E5071 /* CCPPhotoModels.swift in Sources */,
+				00BBDA4521C8F7E6003E5071 /* CCPPhotoAuthorization.swift in Sources */,
+				00BBDA3421C8E3D3003E5071 /* ImagePicker.swift in Sources */,
+				00BBDA3821C8E3EB003E5071 /* VideoPicker.swift in Sources */,
+				00BBDA4121C8F56D003E5071 /* CCPPhotoConfig.swift in Sources */,
+				00FE7A4A21C0A79800E7E9CA /* CCPPhoto.swift in Sources */,
 				00FE7A3721C0A76900E7E9CA /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
