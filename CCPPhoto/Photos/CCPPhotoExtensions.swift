@@ -154,6 +154,9 @@ extension AVMutableVideoComposition {
 
 extension AVURLAsset {
     func exportVideoUrl(_ presetName: String = AVAssetExportPreset640x480, _ needFix: Bool = true, _ completion:((_ path: URL?)->())?) {
+        let mainCompletion: (_ path: URL?)->() = { path in
+            completion?(path)
+        }
         if let session = AVAssetExportSession(asset: self, presetName: presetName) {
             if !videoOutType(session) { completion?(nil) }
             let fileUrl = videoOutFilePath()
@@ -166,24 +169,21 @@ extension AVURLAsset {
                 }
             }
             session.exportAsynchronously {
-                DispatchQueue.main.async {
-                    switch session.status {
-                    case .unknown, .exporting, .waiting:()
-                    case .completed:
-                        completion?(fileUrl)
-                    case .failed:
-                        print("导出失败")
-                        completion?(nil)
-                    case .cancelled:
-                        print("取消导出")
-                        completion?(nil)
-                    }
+                switch session.status {
+                case .unknown, .exporting, .waiting:()
+                case .completed:
+                    mainCompletion(fileUrl)
+                case .failed:
+                    print("导出失败")
+                    mainCompletion(nil)
+                case .cancelled:
+                    print("取消导出")
+                    mainCompletion(nil)
                 }
-                
             }
         }
         else {
-            completion?(nil)
+            mainCompletion(nil)
         }
         
     }
@@ -246,4 +246,35 @@ extension PHAsset {
             }
         }
     }
+    
+    @discardableResult
+    func image(_ width: CGFloat, _ allowCloud: Bool = true, _ progress: PHAssetImageProgressHandler? = nil, _ completion: ((_ image: UIImage, _ info: [AnyHashable: Any]?)->())?) -> PHImageRequestID {
+        let imgSize = aspectSize(width)
+        let options = PHImageRequestOptions()
+        options.resizeMode = .fast
+        options.progressHandler = progress
+        options.isNetworkAccessAllowed = allowCloud
+        return PHImageManager.default().requestImage(for: self, targetSize: imgSize, contentMode: .aspectFill, options: options) { (image, info) in
+            if let img = image {
+                completion?(img, info)
+                return
+            }
+            
+        }
+    }
+    
+    private func aspectSize(_ width: CGFloat) -> CGSize {
+        let rate = CGFloat(self.pixelWidth) / CGFloat(self.pixelHeight)
+        let scaleWidth = width * (CCPPhotoConfig.screenScale) * 1.5
+        var aspectWidth = scaleWidth
+        if rate < 0.2 {
+            aspectWidth = scaleWidth * 0.5
+        }
+        else if rate > 1.8 {
+            aspectWidth = scaleWidth * rate
+        }
+        let aspectHeight = aspectWidth / rate
+        return CGSize(width: aspectWidth, height: aspectHeight)
+    }
+    
 }

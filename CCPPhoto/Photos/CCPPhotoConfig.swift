@@ -9,9 +9,10 @@
 import UIKit
 
 struct CCPPhotoConfig {
-    static var showCamera = true
-    static var itemSpace = 5
-    static var numOfColumn = 4
-    static var mainWidth = UIScreen.main.bounds.width
-    static var mainHeight = UIScreen.main.bounds.height
+    static let showCamera = true
+    static let itemSpace = 5
+    static let numOfColumn = 4
+    static let mainWidth = UIScreen.main.bounds.width
+    static let mainHeight = UIScreen.main.bounds.height
+    static let screenScale: CGFloat = 2.0
 }

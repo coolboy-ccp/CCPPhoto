@@ -10,9 +10,13 @@ import UIKit
 import Photos
 
 class CCPPhoto {
+    private let handleQueue = DispatchQueue(label: "CCPPhotoHandleQueue")
     private var rqType: AssetMediaType = .image
     private var minWidth = CCPPhotoConfig.mainWidth / 6.0
     private var minHeight = CCPPhotoConfig.mainHeight / 6.0
+    
+    static let shared = CCPPhoto()
+    private init() {}
     
     func imgAlbumDataLength(_ album: AlbumModel, _ completion: @escaping (_ length: String) -> ()) {
         var dataLength = 0
@@ -31,6 +35,72 @@ class CCPPhoto {
         }
     }
     
+    func save(_ image: UIImage, _ loc: CLLocation? = nil, _ completion:((_ asset: PHAsset?)->())? = nil) {
+        let request = PHAssetChangeRequest.creationRequestForAsset(from: image)
+        save(request, loc, completion)
+    }
+    
+    func save(_ url: URL, _ loc: CLLocation? = nil, _ completion:((_ asset: PHAsset?)->())? = nil) {
+        if let request = PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: url) {
+            save(request, loc, completion)
+        }
+        else {
+            completion?(nil)
+        }
+    }
+    
+    func saveVideo(_ url: URL, _ loc: CLLocation? = nil, _ completion:((_ asset: PHAsset?)->())? = nil) {
+        if let request = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url) {
+            save(request, loc, completion)
+        }
+        else {
+            completion?(nil)
+        }
+    }
+    
+    func fetchCameraRollAlbum(_ type: AlbumType = .image, _ completion:((AlbumModel?)->())?) {
+        let mainCompletion: (AlbumModel?)->() = { model in
+            DispatchQueue.main.async {
+                completion?(model)
+            }
+        }
+        handleQueue.async {
+            let fetchOptions = type.fetchOptions()
+            let smartAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .albumRegular, options: nil)
+            let model = self.albumModel(smartAlbums, fetchOptions, .smartAlbumUserLibrary)
+            mainCompletion(model)
+        }
+    }
+    
+    func fetchAllAlums(_ type: AlbumType = .image, _ completion:(([AlbumModel])->())?) {
+        let mainCompletion: ([AlbumModel])->() = { model in
+            DispatchQueue.main.async {
+                completion?(model)
+            }
+        }
+        handleQueue.async {
+            var albumModels = [AlbumModel]()
+            let fetchOptions = type.fetchOptions()
+            let albumTypes: [PHAssetCollectionType] = [.smartAlbum, .album, .album, .album]
+            let albumSubTypes: [PHAssetCollectionSubtype] = [.albumRegular, .albumMyPhotoStream, .albumSyncedAlbum, .albumCloudShared]
+            var results = [PHFetchResult<PHAssetCollection>]()
+            for (idx, albumType) in albumTypes.enumerated() {
+                let subType = albumSubTypes[idx]
+                let result = PHAssetCollection.fetchAssetCollections(with: albumType, subtype: subType, options: fetchOptions)
+                results.append(result)
+            }
+            if let top = PHCollectionList.fetchTopLevelUserCollections(with: nil) as? PHFetchResult<PHAssetCollection> {
+                results.append(top)
+            }
+            for result in results {
+                if let model = self.albumModel(result, fetchOptions) {
+                    albumModels.append(model)
+                }
+            }
+            mainCompletion(albumModels)
+        }
+    }
+    
     private func albumLengthString(_ length: Float) -> String{
         var string: NSString = "0B"
         if length >= 0.1 * 1024 * 1024 {
@@ -45,43 +115,26 @@ class CCPPhoto {
         return String(string)
     }
     
-    func fetchCameraRollAlbum() -> AlbumModel? {
-        let type = AlbumType.image
-        let fetchOptions = type.fetchOptions()
-        let smartAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .albumRegular, options: fetchOptions)
-        return albumModel(smartAlbums, fetchOptions)
-    }
-    
-    func fetchAllAlums() -> [AlbumModel] {
-        var albumModels = [AlbumModel]()
-        let type = AlbumType.imageVideo
-        let fetchOptions = type.fetchOptions()
-        let albumTypes: [PHAssetCollectionType] = [.smartAlbum, .album, .album, .album]
-        let albumSubTypes: [PHAssetCollectionSubtype] = [.albumRegular, .albumMyPhotoStream, .albumSyncedAlbum, .albumCloudShared]
-        var results = [PHFetchResult<PHAssetCollection>]()
-        for (idx, albumType) in albumTypes.enumerated() {
-            let subType = albumSubTypes[idx]
-            let result = PHAssetCollection.fetchAssetCollections(with: albumType, subtype: subType, options: fetchOptions)
-            results.append(result)
-        }
-        if let top = PHCollectionList.fetchTopLevelUserCollections(with: nil) as? PHFetchResult<PHAssetCollection> {
-            results.append(top)
-        }
-        for result in results {
-            if let model = albumModel(result, fetchOptions) {
-                 albumModels.append(model)
-            }
-        }
-        return albumModels
-    }
-    
-    private func albumModel(_ result: PHFetchResult<PHAssetCollection>, _ options: PHFetchOptions?) -> AlbumModel? {
+    private func albumModel(_ result: PHFetchResult<PHAssetCollection>, _ options: PHFetchOptions?, _ filteSubType: PHAssetCollectionSubtype? = nil) -> AlbumModel? {
         var model: AlbumModel?
-        result.enumerateObjects { (collection, idx, _) in
+        func toModel(_ collection: PHAssetCollection) {
             if collection.estimatedAssetCount > 0 {
                 let asset = PHAsset.fetchAssets(in: collection, options: options)
                 let assetModels = self.assetModels(asset)
                 model = AlbumModel.init(name: collection.localizedTitle ?? "", count: asset.count, result: asset, models: assetModels)
+            }
+        }
+        result.enumerateObjects { (collection, idx, _) in
+            if collection.isKind(of: PHAssetCollection.self) {
+                if let subtype = filteSubType {
+                    if collection.assetCollectionSubtype == subtype {
+                        toModel(collection)
+                    }
+                }
+                else {
+                    toModel(collection)
+                }
+             
             }
         }
         return model
@@ -111,8 +164,8 @@ class CCPPhoto {
     }
     
     private func isConformingSize(_ asset: PHAsset) -> Bool {
-        let conformingWidth = minWidth > CGFloat(asset.pixelWidth)
-        let conformingHeight = minHeight > CGFloat(asset.pixelHeight)
+        let conformingWidth = minWidth < CGFloat(asset.pixelWidth)
+        let conformingHeight = minHeight < CGFloat(asset.pixelHeight)
         return conformingWidth && conformingHeight
     }
     
@@ -136,29 +189,6 @@ class CCPPhoto {
         return ""
     }
     
-    func save(_ image: UIImage, _ loc: CLLocation? = nil, _ completion:((_ asset: PHAsset?)->())? = nil) {
-        let request = PHAssetChangeRequest.creationRequestForAsset(from: image)
-        save(request, loc, completion)
-    }
-    
-    func save(_ url: URL, _ loc: CLLocation? = nil, _ completion:((_ asset: PHAsset?)->())? = nil) {
-        if let request = PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: url) {
-            save(request, loc, completion)
-        }
-        else {
-            completion?(nil)
-        }
-    }
-    
-    func saveVideo(_ url: URL, _ loc: CLLocation? = nil, _ completion:((_ asset: PHAsset?)->())? = nil) {
-        if let request = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url) {
-            save(request, loc, completion)
-        }
-        else {
-            completion?(nil)
-        }
-    }
-    
     private func save(_ request: PHAssetChangeRequest, _ loc: CLLocation? = nil, _ completion: ((_ asset: PHAsset?)->())?) {
         var identifier: String?
         var asset: PHAsset?
@@ -178,6 +208,12 @@ class CCPPhoto {
             }
             mainCompletion(asset)
         }
+    }
+}
+
+extension CCPPhoto {
+    static func fetchCameraRollAlbum(_ type: AlbumType = .image, _ completion:((AlbumModel?)->())?) {
+        CCPPhoto.shared.fetchCameraRollAlbum(type, completion)
     }
 }
 
