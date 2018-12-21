@@ -21,11 +21,13 @@ struct AssetModel {
     var isSelected: Bool = false
     let mediaType: AssetMediaType
     let timeLength: String
+    let localId: String
     
     init(_ asset: PHAsset, _ type: AssetMediaType, _ timeLength: String = "") {
         self.asset = asset
         self.mediaType = type
         self.timeLength = timeLength
+        self.localId = asset.localIdentifier
     }
     
     func imgDataLength(_ completion:@escaping (_ length: Int) -> ()) {

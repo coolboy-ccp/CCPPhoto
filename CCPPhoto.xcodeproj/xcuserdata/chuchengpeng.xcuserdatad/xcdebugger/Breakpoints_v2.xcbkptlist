@@ -9,14 +9,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CCPPhoto/Photos/CCPPhotoExtensions.swift"
-            timestampString = "566992239.988971"
+            filePath = "CCPPhoto/Photos/VC/AssetCell.swift"
+            timestampString = "567056102.987038"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "252"
-            endingLineNumber = "252"
-            landmarkName = "image(_:_:_:_:)"
-            landmarkType = "7">
+            startingLineNumber = "18"
+            endingLineNumber = "18"
+            landmarkName = "selectedIdx"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CCPPhoto/Photos/CCPPhotoExtensions.swift"
-            timestampString = "566992239.989033"
+            filePath = "CCPPhoto/Photos/VC/AssetCell.swift"
+            timestampString = "567056102.987136"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "258"
-            endingLineNumber = "258"
-            landmarkName = "image(_:_:_:_:)"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
+            landmarkName = "reloadSelectIdx(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

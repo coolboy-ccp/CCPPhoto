@@ -16,3 +16,7 @@ struct CCPPhotoConfig {
     static let mainHeight = UIScreen.main.bounds.height
     static let screenScale: CGFloat = 2.0
 }
+
+extension Notification.Name {
+    static let reloadSelectedIdx = Notification.Name("CCPPhotoReloadSelectedIndexNotificationName")
+}

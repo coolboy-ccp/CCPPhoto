@@ -10,9 +10,9 @@ import UIKit
 
 class AssetCell: UICollectionViewCell {
     @IBOutlet weak var contenImgV: UIImageView!
-    @IBOutlet weak var selectImgV: UIImageView!
     @IBOutlet weak var selectedNumLabel: UILabel!
     
+    private var model: AssetModel?
     var selectedIdx: Int = 0 {
         didSet {
             selectedNumLabel.isHidden = selectedIdx == 0
@@ -22,13 +22,30 @@ class AssetCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        selectImgV.layer.cornerRadius = 12
-        selectImgV.layer.masksToBounds = true
         selectedNumLabel.layer.cornerRadius = 12
         selectedNumLabel.layer.masksToBounds = true
+        selectedIdx = 0
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadSelectIdx(_:)), name: .reloadSelectedIdx, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc private func reloadSelectIdx(_ noti: Notification) {
+        guard let userinfo = noti.userInfo as? [String: [String]] else { return }
+        guard let model = self.model else { return }
+        guard let selectedIdxs = userinfo["selectedIdxs"] else { return }
+        if let idx = selectedIdxs.firstIndex(of: model.localId) {
+            self.selectedIdx = idx + 1
+        }
+        else {
+            self.selectedIdx = 0
+        }
     }
     
     func setupContent(_ model: AssetModel) {
+        self.model = model
         model.asset.image(self.bounds.width) { (image, info) in
             self.contenImgV.image = image
         }

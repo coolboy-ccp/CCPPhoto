@@ -11,8 +11,7 @@ import UIKit
 class ImagePicker: UIViewController {
     @IBOutlet weak var listCollection: UICollectionView!
     private var imgModels = [AssetModel]()
-    private var selectedImgs = [Int]()
-    
+    private var selectedImgIds = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "照片"
@@ -83,7 +82,7 @@ class ImagePicker: UIViewController {
     }
 }
 
-extension ImagePicker: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension ImagePicker: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return imgModels.count
     }
@@ -97,6 +96,19 @@ extension ImagePicker: UICollectionViewDataSource, UICollectionViewDelegate, UIC
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: false)
+        handleSelectedIdxs(indexPath)
+        NotificationCenter.default.post(name: .reloadSelectedIdx, object: nil, userInfo: ["selectedIdxs" : selectedImgIds])
+    }
+    
+    private func handleSelectedIdxs(_ indexPath: IndexPath) {
+        let model = imgModels[indexPath.item]
+        let id = model.asset.localIdentifier
+        if let idx = selectedImgIds.firstIndex(of: id) {
+            selectedImgIds.remove(at: idx)
+        }
+        else {
+            selectedImgIds.append(id)
+        }
     }
     
 }
