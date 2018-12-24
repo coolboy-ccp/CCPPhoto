@@ -226,6 +226,8 @@ extension AVURLAsset {
 }
 
 extension PHAsset {
+    
+    typealias CCPPhotoCompletionHandler = (_ image: UIImage, _ info: [AnyHashable: Any]?)->()
     func videoUrl(_ presetName: String = AVAssetExportPreset640x480, _ needFix: Bool, _ completion:((_ path: URL?)->())?) {
         let options = PHVideoRequestOptions()
         options.version = .original
@@ -248,7 +250,7 @@ extension PHAsset {
     }
     
     @discardableResult
-    func image(_ width: CGFloat, _ allowCloud: Bool = true, _ progress: PHAssetImageProgressHandler? = nil, _ completion: ((_ image: UIImage, _ info: [AnyHashable: Any]?)->())?) -> PHImageRequestID {
+    func image(_ width: CGFloat, _ allowCloud: Bool = true, _ progress: PHAssetImageProgressHandler? = nil, _ completion: CCPPhotoCompletionHandler?) -> PHImageRequestID {
         let imgSize = aspectSize(width)
         let options = PHImageRequestOptions()
         options.resizeMode = .fast
@@ -257,10 +259,23 @@ extension PHAsset {
         return PHImageManager.default().requestImage(for: self, targetSize: imgSize, contentMode: .aspectFill, options: options) { (image, info) in
             if let img = image {
                 completion?(img, info)
-                return
             }
-            
         }
+    }
+    
+    @discardableResult
+    func originImage(_ allowCloud: Bool = true, _ progress: PHAssetImageProgressHandler? = nil, _ completion: CCPPhotoCompletionHandler?) -> PHImageRequestID {
+        let options = PHImageRequestOptions()
+        options.resizeMode = .fast
+        options.progressHandler = progress
+        options.isNetworkAccessAllowed = allowCloud
+        return PHImageManager.default().requestImageData(for: self, options: options, resultHandler: { (imgData, _, _, info) in
+            guard let data = imgData else { return }
+            if let img = UIImage(data: data) {
+                let fixImg = img.fixOrientationUp()
+                completion?(fixImg, info)
+            }
+        })
     }
     
     private func aspectSize(_ width: CGFloat) -> CGSize {

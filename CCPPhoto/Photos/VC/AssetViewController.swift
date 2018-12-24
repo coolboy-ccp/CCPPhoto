@@ -1,17 +1,44 @@
 //
-//  ImagePicker.swift
+//  AssetViewController.swift
 //  CCPPhoto
 //
-//  Created by 储诚鹏 on 2018/12/18.
+//  Created by 储诚鹏 on 2018/12/21.
 //  Copyright © 2018 储诚鹏. All rights reserved.
 //
 
 import UIKit
 
-class ImagePicker: UIViewController {
+final class AssetViewController: UIViewController {
+
     @IBOutlet weak var listCollection: UICollectionView!
     private var imgModels = [AssetModel]()
     private var selectedImgIds = [String]()
+    private var type: AlbumType = .imageVideo
+    
+    static var imageVC: AssetViewController {
+        get {
+            return assetVC()
+        }
+    }
+    
+    static var videoVC: AssetViewController {
+        get {
+            return assetVC(.video)
+        }
+    }
+    
+    static var imageVideoVC: AssetViewController {
+        get {
+            return assetVC(.imageVideo)
+        }
+    }
+    
+    private static func assetVC(_ type: AlbumType = .image) -> AssetViewController{
+        let assetVC = AssetViewController()
+        assetVC.type = type
+        return assetVC
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "照片"
@@ -62,7 +89,7 @@ class ImagePicker: UIViewController {
     @objc private func cancel() {
         self.navigationController?.popViewController(animated: true)
     }
-
+    
     @IBAction func previewImgs(_ sender: Any) {
     }
     
@@ -73,7 +100,7 @@ class ImagePicker: UIViewController {
     }
     
     private func fetchData() {
-        CCPPhoto.fetchCameraRollAlbum { (albumModel) in
+        CCPPhoto.fetchCameraRollAlbum(type) { (albumModel) in
             if let album = albumModel {
                 self.imgModels = album.models
                 self.listCollection.reloadData()
@@ -82,7 +109,7 @@ class ImagePicker: UIViewController {
     }
 }
 
-extension ImagePicker: UICollectionViewDataSource, UICollectionViewDelegate {
+extension AssetViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return imgModels.count
     }
@@ -110,5 +137,4 @@ extension ImagePicker: UICollectionViewDataSource, UICollectionViewDelegate {
             selectedImgIds.append(id)
         }
     }
-    
 }

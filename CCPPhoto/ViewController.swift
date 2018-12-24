@@ -16,13 +16,15 @@ class ViewController: UIViewController {
     }
 
     @IBAction func image(_ sender: Any) {
-        self.navigationController?.pushViewController(ImagePicker(), animated: true)
+        self.navigationController?.pushViewController(AssetViewController.imageVideoVC, animated: true)
     }
     
     @IBAction func video(_ sender: Any) {
+        self.navigationController?.pushViewController(AlumsViewController(), animated: true)
     }
     
     @IBAction func imageVideo(_ sender: Any) {
+        self.navigationController?.pushViewController(AssetViewController.imageVideoVC, animated: true)
     }
     
 }
